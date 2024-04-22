@@ -50,6 +50,9 @@ class FloatingBubbles extends StatefulWidget {
   /// controls the speed at which bubbles appear/disappear
   final BubbleSpeed speed;
 
+  /// Creates Floating Bubbles having a gradient opacity.
+  final bool gradientOpacity;
+
   /// Creates Floating Bubbles in the Foreground to Any widgets that plays for [duration] amount of time.
   ///
   /// All Fields Are Required to make a new [Instance] of FloatingBubbles.
@@ -65,6 +68,7 @@ class FloatingBubbles extends StatefulWidget {
     this.paintingStyle = PaintingStyle.fill,
     this.strokeWidth = 0,
     this.speed = BubbleSpeed.normal,
+    this.gradientOpacity = false,
   })  : assert(
           noOfBubbles >= 1,
           'Number of Bubbles Cannot be less than 1',
@@ -96,6 +100,7 @@ class FloatingBubbles extends StatefulWidget {
     this.strokeWidth = 0,
     this.duration = 0,
     this.speed = BubbleSpeed.normal,
+    this.gradientOpacity = false,
   })  : assert(
           noOfBubbles >= 1,
           'Number of Bubbles Cannot be less than 1',
@@ -174,6 +179,7 @@ class _FloatingBubblesState extends State<FloatingBubbles> {
                   paintingStyle: widget.paintingStyle,
                   strokeWidth: widget.strokeWidth,
                   shape: widget.shape,
+                  gradientOpacity: widget.gradientOpacity,
                 ),
               );
             },
@@ -194,6 +200,7 @@ class _FloatingBubblesState extends State<FloatingBubbles> {
                     paintingStyle: widget.paintingStyle,
                     strokeWidth: widget.strokeWidth,
                     shape: widget.shape,
+                    gradientOpacity: widget.gradientOpacity,
                   ),
                 );
               else

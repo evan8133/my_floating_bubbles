@@ -137,6 +137,9 @@ class BubbleModel extends CustomPainter {
   /// Shape of the Bubble.
   final BubbleShape shape;
 
+  /// gradient opacity
+  final bool gradientOpacity;
+
   /// This Class paints the bubble in the screen.
   ///
   /// All Fields are Required.
@@ -147,6 +150,7 @@ class BubbleModel extends CustomPainter {
     required this.paintingStyle,
     required this.strokeWidth,
     required this.shape,
+    required this.gradientOpacity,
   });
 
   /// Painting the bubbles in the screen.
@@ -187,6 +191,20 @@ class BubbleModel extends CustomPainter {
               Radius.circular(size.width * sizeFactor * particle.size * 0.5),
             ),
             paint);
+      }
+      if (gradientOpacity) {
+        final gradient = LinearGradient(
+          colors: [
+            particle.color.withOpacity(0),
+            particle.color.withOpacity(opacity / 255),
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        );
+        paint.shader = gradient.createShader(Rect.fromCircle(
+          center: position,
+          radius: size.width * sizeFactor * particle.size,
+        ));
       }
     });
   }
