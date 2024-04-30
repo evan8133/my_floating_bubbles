@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sa4_migration_kit/sa4_migration_kit.dart';
 
 import 'bubble_floating_animation.dart';
@@ -53,6 +54,9 @@ class FloatingBubbles extends StatefulWidget {
   /// Creates Floating Bubbles having a gradient opacity.
   final bool gradientOpacity;
 
+  ///center widget
+  final Widget? child;
+
   /// Creates Floating Bubbles in the Foreground to Any widgets that plays for [duration] amount of time.
   ///
   /// All Fields Are Required to make a new [Instance] of FloatingBubbles.
@@ -69,6 +73,7 @@ class FloatingBubbles extends StatefulWidget {
     this.strokeWidth = 0,
     this.speed = BubbleSpeed.normal,
     this.gradientOpacity = false,
+    this.child,
   })  : assert(
           noOfBubbles >= 1,
           'Number of Bubbles Cannot be less than 1',
@@ -101,6 +106,7 @@ class FloatingBubbles extends StatefulWidget {
     this.duration = 0,
     this.speed = BubbleSpeed.normal,
     this.gradientOpacity = false,
+    this.child,
   })  : assert(
           noOfBubbles >= 1,
           'Number of Bubbles Cannot be less than 1',
@@ -180,6 +186,7 @@ class _FloatingBubblesState extends State<FloatingBubbles> {
                   strokeWidth: widget.strokeWidth,
                   shape: widget.shape,
                   gradientOpacity: widget.gradientOpacity,
+                  child: widget.child,
                 ),
               );
             },
@@ -201,6 +208,7 @@ class _FloatingBubblesState extends State<FloatingBubbles> {
                     strokeWidth: widget.strokeWidth,
                     shape: widget.shape,
                     gradientOpacity: widget.gradientOpacity,
+                    child: widget.child,
                   ),
                 );
               else

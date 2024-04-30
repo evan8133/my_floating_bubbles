@@ -140,6 +140,9 @@ class BubbleModel extends CustomPainter {
   /// gradient opacity
   final bool gradientOpacity;
 
+  /// widget child
+  final Widget? child;
+
   /// This Class paints the bubble in the screen.
   ///
   /// All Fields are Required.
@@ -151,22 +154,47 @@ class BubbleModel extends CustomPainter {
     required this.strokeWidth,
     required this.shape,
     required this.gradientOpacity,
+    this.child,
   });
 
   /// Painting the bubbles in the screen.
   @override
   void paint(Canvas canvas, Size size) {
     bubbles.forEach((particle) {
-      final paint = Paint()
-        ..color = particle.color.withAlpha(opacity)
-        ..style = paintingStyle
-        ..strokeWidth = strokeWidth; //can be from 5 to 15.
       final progress = particle.progress();
       final MultiTweenValues animation = particle.tween.transform(progress);
       final position = Offset(
         animation.get<double>(_OffsetProps.x) * size.width,
         animation.get<double>(_OffsetProps.y) * size.height,
       );
+
+      final paint = Paint()
+        ..style = paintingStyle
+        ..strokeWidth = strokeWidth;
+
+      if (gradientOpacity) {
+        // Create a gradient with opacity
+        final Gradient gradient = LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            particle.color.withAlpha((opacity * progress - 50).toInt()),
+            particle.color.withAlpha(50),
+            particle.color.withAlpha(0),
+          ],
+        );
+
+        paint.shader = gradient.createShader(
+          Rect.fromCircle(
+            center: position,
+            radius: size.width * sizeFactor * particle.size,
+          ),
+        );
+      } else {
+        paint.color = particle.color.withAlpha(opacity);
+      }
+
+      // Draw the bubble shape
       if (shape == BubbleShape.circle)
         canvas.drawCircle(
           position,
@@ -175,36 +203,24 @@ class BubbleModel extends CustomPainter {
         );
       else if (shape == BubbleShape.square)
         canvas.drawRect(
-            Rect.fromCircle(
-              center: position,
-              radius: size.width * sizeFactor * particle.size,
-            ),
-            paint);
+          Rect.fromCircle(
+            center: position,
+            radius: size.width * sizeFactor * particle.size,
+          ),
+          paint,
+        );
       else {
         Rect rect() => Rect.fromCircle(
               center: position,
               radius: size.width * sizeFactor * particle.size,
             );
         canvas.drawRRect(
-            RRect.fromRectAndRadius(
-              rect(),
-              Radius.circular(size.width * sizeFactor * particle.size * 0.5),
-            ),
-            paint);
-      }
-      if (gradientOpacity) {
-        final gradient = LinearGradient(
-          colors: [
-            particle.color.withOpacity(0),
-            particle.color.withOpacity(opacity / 255),
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+          RRect.fromRectAndRadius(
+            rect(),
+            Radius.circular(size.width * sizeFactor * particle.size * 0.5),
+          ),
+          paint,
         );
-        paint.shader = gradient.createShader(Rect.fromCircle(
-          center: position,
-          radius: size.width * sizeFactor * particle.size,
-        ));
       }
     });
   }
