@@ -55,7 +55,10 @@ class FloatingBubbles extends StatefulWidget {
   final bool gradientOpacity;
 
   ///center widget
-  final Widget? child;
+  final List<Widget>? childs;
+
+  ///child padding
+  final EdgeInsets? padding;
 
   /// Creates Floating Bubbles in the Foreground to Any widgets that plays for [duration] amount of time.
   ///
@@ -73,7 +76,8 @@ class FloatingBubbles extends StatefulWidget {
     this.strokeWidth = 0,
     this.speed = BubbleSpeed.normal,
     this.gradientOpacity = false,
-    this.child,
+    this.childs,
+    this.padding,
   })  : assert(
           noOfBubbles >= 1,
           'Number of Bubbles Cannot be less than 1',
@@ -106,7 +110,8 @@ class FloatingBubbles extends StatefulWidget {
     this.duration = 0,
     this.speed = BubbleSpeed.normal,
     this.gradientOpacity = false,
-    this.child,
+    this.childs,
+    this.padding,
   })  : assert(
           noOfBubbles >= 1,
           'Number of Bubbles Cannot be less than 1',
@@ -145,6 +150,7 @@ class _FloatingBubblesState extends State<FloatingBubbles> {
           color: widget
               .colorsOfBubbles[_random.nextInt(widget.colorsOfBubbles.length)],
           speed: widget.speed,
+          child: widget.childs?[i],
         ),
       );
     }
@@ -186,7 +192,7 @@ class _FloatingBubblesState extends State<FloatingBubbles> {
                   strokeWidth: widget.strokeWidth,
                   shape: widget.shape,
                   gradientOpacity: widget.gradientOpacity,
-                  child: widget.child,
+                  childPadding: widget.padding,
                 ),
               );
             },
@@ -208,7 +214,7 @@ class _FloatingBubblesState extends State<FloatingBubbles> {
                     strokeWidth: widget.strokeWidth,
                     shape: widget.shape,
                     gradientOpacity: widget.gradientOpacity,
-                    child: widget.child,
+                    childPadding: widget.padding,
                   ),
                 );
               else

@@ -29,8 +29,11 @@ class BubbleFloatingAnimation {
   /// Speed of the bubble
   final BubbleSpeed speed;
 
+  ///widget child
+  final Widget? child;
+
   BubbleFloatingAnimation(this.random,
-      {required this.color, required this.speed}) {
+      {required this.color, required this.speed, this.child}) {
     _restart();
     _shuffle();
   }
@@ -143,6 +146,9 @@ class BubbleModel extends CustomPainter {
   /// widget child
   final Widget? child;
 
+  /// child padding
+  final EdgeInsets? childPadding;
+
   /// This Class paints the bubble in the screen.
   ///
   /// All Fields are Required.
@@ -155,6 +161,7 @@ class BubbleModel extends CustomPainter {
     required this.shape,
     required this.gradientOpacity,
     this.child,
+    this.childPadding,
   });
 
   /// Painting the bubbles in the screen.
